@@ -3,9 +3,7 @@
 node_modules
 
 # Quasar core related directories
-.quasar/*
-!.quasar/dev-spa
-!.quasar/dev-spa/app.js
+.quasar
 /dist
 /quasar.config.*.temporary.compiled*
 
