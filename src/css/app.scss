@@ -1,0 +1,8 @@
+// app global css in SCSS form
+.q-drawer {
+  .q-item {
+    &.q-router-link--exact-active {
+      color: $secondary !important;
+    }
+  }
+}
