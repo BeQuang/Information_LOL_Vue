@@ -1,21 +1,23 @@
 <template>
   <div>
     <q-item-label header>List Equipments</q-item-label>
-    <div class="row q-gutter-md" style="flex-wrap: wrap">
-      <q-slide-item
-        v-for="item in storeEquipments.equipments"
-        :key="item.id"
-        class="col-12 col-sm-6 custom-md-30"
-        @right="(details) => onEquipmentSlide(details, item)"
-        right-color="negative"
-      >
-        <template v-slot:right>
-          <q-icon name="delete" />
-        </template>
-        <!-- Mỗi q-slide-item chỉ cần chứa 1 q-item -->
-        <EquipmentItem :item="item" />
-      </q-slide-item>
-    </div>
+    <NothingEquipment v-if="!storeEquipments.equipments.length" />
+    <Sortable :list="storeEquipments.equipments" item-key="id" tag="div" class="row q-gutter-md">
+      <template #item="{ element }">
+        <!-- Đặt col ở đây -->
+        <div class="col-12 col-sm-6 custom-md-30">
+          <q-slide-item
+            @right="(details) => onEquipmentSlide(details, element)"
+            right-color="negative"
+          >
+            <template v-slot:right>
+              <q-icon name="delete" />
+            </template>
+            <EquipmentItem :item="element" />
+          </q-slide-item>
+        </div>
+      </template>
+    </Sortable>
   </div>
 </template>
 
@@ -23,14 +25,26 @@
 import { useQuasar } from 'quasar'
 
 import { useStoreEquipments } from '../../stores/storeEquipments'
+import { useStoreSettings } from '../../stores/storeSettings'
 import { useCurrencify } from '../../use/useCurrencify'
 import { useColorClass } from '../../use/useColorClass'
 import EquipmentItem from './EquipmentItem.vue'
+import NothingEquipment from './NothingEquipment.vue'
+import { Sortable } from 'sortablejs-vue3'
 
 const $q = useQuasar()
 const storeEquipments = useStoreEquipments()
+const storeSettings = useStoreSettings()
 
 const onEquipmentSlide = ({ reset }, equipment) => {
+  if (storeSettings.settings.promptToDelete) {
+    promptToDelete(reset, equipment)
+  } else {
+    storeEquipments.deleteEquipment(equipment.id)
+  }
+}
+
+const promptToDelete = (reset, equipment) => {
   $q.dialog({
     title: 'Delete Equipment',
     message: `

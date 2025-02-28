@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { Notify } from 'quasar'
+import { useCurrencify } from '../use/useCurrencify'
 
 export const useStoreEquipments = defineStore('equipments', () => {
   // state
@@ -45,7 +46,7 @@ export const useStoreEquipments = defineStore('equipments', () => {
     equipments.value.forEach((item) => {
       if (item.buy) totalPrice += item.price
     })
-    return totalPrice.toFixed(2)
+    return useCurrencify(totalPrice)
   })
 
   // actions

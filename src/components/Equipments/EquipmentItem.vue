@@ -8,7 +8,7 @@
     <q-item-section>{{ item.name }}.</q-item-section>
     <q-item-section side>
       <q-item-label caption :class="useColorClass(item.price, 1300)">
-        ${{ useCurrencify(item.price) }}
+        {{ useCurrencify(item.price) }}
       </q-item-label>
     </q-item-section>
     <q-item-section side>

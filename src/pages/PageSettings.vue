@@ -1,9 +1,15 @@
 <template>
-  <q-page class="flex flex-center">
-    <h1>Settings Information</h1>
+  <q-page>
+    <div class="q-pa-md">
+      <q-list bordered padding>
+        <SettingNotifications />
+        <SettingAppearance />
+      </q-list>
+    </div>
   </q-page>
 </template>
 
 <script setup>
-//
+import SettingAppearance from '../components/Settings/SettingAppearance.vue'
+import SettingNotifications from '../components/Settings/SettingNotifications.vue'
 </script>
